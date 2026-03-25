@@ -12,7 +12,7 @@
 #   ./init-mvc-generic.sh MyMvcCms net10.0 singleorg
 #
 # Optional Microsoft Entra ID example:
-#   ./init-mvc-generic.sh MyMvcCms net10.0 singleorg
+#   ./init-mvc-generic.sh MyMvcCms net10.0 o365
 #
 # Then update appsettings.json or appsettings.Development.json:
 #   "AzureAd": {
@@ -49,15 +49,17 @@ if [[ -e "$PROJECT_NAME" ]]; then
   exit 1
 fi
 
-mkdir -p "$PROJECT_NAME"
-cd "$PROJECT_NAME"
+# mkdir -p "$PROJECT_NAME"
+# cd "$PROJECT_NAME"
 
 dotnet new sln -n "$PROJECT_NAME"
 
-if [[ "$AUTH_MODE" == "individual" ]]; then
-  dotnet new mvc -n "$PROJECT_NAME" -f "$TARGET_FRAMEWORK" -au Individual
+if [[ "${AUTH_MODE}" == "individual" ]]; then
+  dotnet new mvc -n "$PROJECT_NAME" -f "$TARGET_FRAMEWORK" -au Individual --use-program-main
+elif [[ "${AUTH_MODE}" == "o365" || "${AUTH_MODE}" == "singleorg" ]]; then
+  dotnet new mvc -n "$PROJECT_NAME" -f "$TARGET_FRAMEWORK" -au SingleOrg --use-program-main
 else
-  dotnet new mvc -n "$PROJECT_NAME" -f "$TARGET_FRAMEWORK"
+  dotnet new mvc -n "$PROJECT_NAME" -f "$TARGET_FRAMEWORK" --use-program-main
 fi
 
 dotnet sln add "$PROJECT_NAME/$PROJECT_NAME.csproj"
@@ -128,7 +130,7 @@ if command -v libman >/dev/null 2>&1; then
   libman install jquery@3.7.1 -d wwwroot/lib/jquery
   libman install twitter-bootstrap@5.3.3 -d wwwroot/lib/bootstrap
   libman install select2@4.1.0-rc.0 -d wwwroot/lib/select2
-  libman install datatables@2.3.2 -d wwwroot/lib/datatables
+  libman install datatables.net-bs5@2.3.4 -d wwwroot/lib/datatables
 else
   echo "libman CLI not found; skipping LibMan package install."
   echo "Install later with: dotnet tool install -g Microsoft.Web.LibraryManager.Cli"
