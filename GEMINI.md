@@ -52,7 +52,8 @@
   - 新增完成後：`RedirectToAction` 導向編輯頁（帶入新資料 id）。
   - 更新完成後：`RedirectToAction` 導回同一編輯頁（帶入既有 id）。
 - 送出資料後，使用共用 Toast Partial 呈現結果回饋。
-
+  - 成功：`TempData["SuccessMsg"] = "訊息內容";`
+  - 失敗：`TempData["ErrMsg"] = "錯誤內容";`
 # Model 與 ViewModel 開發規範
 
 ## 設計原則：ViewModel as PageModel
