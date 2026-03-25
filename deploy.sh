@@ -17,7 +17,7 @@
 # --- 參數設定 ---
 DEPLOY_REMOTE="azure"
 DEPLOY_BRANCH="master"
-AZURE_GIT_URL="https://{azuresites}.scm.azurewebsites.net:443/tkutimespmtku.git"
+AZURE_GIT_URL="https://{azuresites}.scm.azurewebsites.net:443/{project}.git"
 
 # 取得目前分支名稱
 current_branch=$(git rev-parse --abbrev-ref HEAD)
